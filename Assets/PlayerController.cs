@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        float leftRight = _playerInputActions.Player.UpDown.ReadValue<float>();
-        float upDown = _playerInputActions.Player.LeftRight.ReadValue<float>();
+        float leftRight = _playerInputActions.Player.LeftRight.ReadValue<float>();
+        float upDown = _playerInputActions.Player.UpDown.ReadValue<float>();
         
         _rigidbody.AddForce(new Vector3(upDown, 0, leftRight) 
                             * movementSpeed, ForceMode.Force);
