@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions _playerInputActions;
     private PlayerAnimationController _playerAnimationController;
 
+    public GameObject cameraAnchor;
+    private float _yaw;
+    private float _pitch;
+    public float rotationSmoothing = 20f;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -57,5 +62,26 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        SetRotation();
+    }
+
+    private void SetRotation()
+    {
+        Vector2 inputVector = _playerInputActions.Player.Aim.ReadValue<Vector2>();
+
+        _yaw += inputVector.x;
+        _pitch -= inputVector.y;
+
+        _pitch = Mathf.Clamp(_pitch, -60, 90);
+
+        Quaternion smoothRotation = Quaternion.Euler(_pitch, _yaw, 0);
+
+        cameraAnchor.transform.rotation = Quaternion.Slerp(cameraAnchor.transform.rotation, 
+            smoothRotation, rotationSmoothing * Time.fixedDeltaTime);
+
+        smoothRotation = Quaternion.Euler(0, _yaw, 0);
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+            smoothRotation, rotationSmoothing * Time.fixedDeltaTime);
     }
 }
