@@ -31,7 +31,8 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext context)
     {
-        if (IsGround()) _rigidbody.AddForce(Vector3.up
+       if (IsGround()) 
+            _rigidbody.AddForce(Vector3.up
             * jumpForce, ForceMode.Impulse);
     }
 
